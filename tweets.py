@@ -1,25 +1,27 @@
 import snscrape.modules.twitter as sntwitter
 import pandas as pd
 
-query = "'world cup' lang:en until:2022-11-30 since:2022-11-01"
+QUERY = "'pemerintah' 'gempa cianjur' lang:id"
 tweets = []
-limit = 2000
+LIMIT = 290
 prevTweet = ''
 
-for tweet in sntwitter.TwitterSearchScraper(query).get_items():
-  if len(tweets) == limit:
+for tweet in sntwitter.TwitterSearchScraper(QUERY).get_items():
+  if len(tweets) == LIMIT:
     break
   else:
     if prevTweet != tweet.content:
       tweets.append([
+        tweet,
         tweet.date,
         tweet.user.username,
         tweet.content
       ])
   prevTweet = tweet.content
 
-df = pd.DataFrame(tweets, columns=['Date', 'User', 'Tweet'])
-df.to_csv('tweets.csv')
-print(df)
+df = pd.DataFrame(tweets, columns=['URL','Date', 'User', 'Tweet'])
+df.to_csv('tweets-gempa-cianjur4.csv')
+# print(df)
   # print(vars(tweet))
   # break
+print(df)
